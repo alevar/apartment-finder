@@ -36,10 +36,11 @@ def post_listing_to_slack(sc, listing):
     :param listing: A record of the listing.
     """
     desc = "{0} | {1} | {2} | {3} | <{4}>".format(listing["area"], listing["price"], listing["bart_dist"], listing["name"], listing["url"])
-    sc.api_call(
-        "chat.postMessage", channel=settings.SLACK_CHANNEL, text=desc,
-        username='pybot', icon_emoji=':robot_face:'
-    )
+    sc.chat_postMessage(channel=settings.SLACK_CHANNEL,text=desc,username='bas',icon_emoji=':godmode:')
+    #  sc.api_call(
+        #  "chat.postMessage", channel=settings.SLACK_CHANNEL, text=desc,
+        #  username='pybot', icon_emoji=':godmode:'
+    #  )
 
 def find_points_of_interest(geotag, location):
     """
@@ -63,6 +64,7 @@ def find_points_of_interest(geotag, location):
 
     # Check to see if the listing is near any transit stations.
     for station, coords in settings.TRANSIT_STATIONS.items():
+        print("searching station")
         dist = coord_distance(coords[0], coords[1], geotag[0], geotag[1])
         if (min_dist is None or dist < min_dist) and dist < settings.MAX_TRANSIT_DIST:
             bart = station
